@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "skim"
+version = "0.1.0"
+description = "A simple N Grams prediction model"
+authors = ["Tanay PrabhuDesai <tanayseven@gmail.com>"]
+license = "GPLv3"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+numpy = "^1.18.1"
+zmq = "^0.0.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.3.5"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"

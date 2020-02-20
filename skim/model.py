@@ -15,7 +15,7 @@
 
 
 from quark import Quark
-from model_element import ModelElement, RootElement
+from skim.model_element import RootElement
 
 import shelve
 import pickle

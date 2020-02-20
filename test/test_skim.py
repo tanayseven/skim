@@ -16,9 +16,9 @@
 import unittest
 
 from quark import Quark
-from model_element import ModelElement, RootElement
-from model import Model
-from setuptools.py31compat import unittest_main
+from skim.model_element import ModelElement, RootElement
+from skim.model import Model
+
 
 class TestQuarkFunctions(unittest.TestCase):
 

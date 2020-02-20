@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from model import Model
+from skim.model import Model
 
 # Contains the Main methos for the skim to run
 # Copyright (C) 2014  Tanay PrabhuDesai
