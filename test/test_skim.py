@@ -15,7 +15,7 @@
 
 import unittest
 
-from quark import Quark
+from skim.quark import Quark
 from skim.model_element import ModelElement, RootElement
 from skim.model import Model
 

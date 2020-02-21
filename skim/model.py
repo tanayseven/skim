@@ -14,7 +14,7 @@
 # GNU General Public License for more details.
 
 
-from quark import Quark
+from skim.quark import Quark
 from skim.model_element import RootElement
 
 import shelve
