@@ -1,8 +1,25 @@
+.. image:: https://travis-ci.org/tanayseven/skim.svg?branch=master
+    :target: https://travis-ci.org/tanayseven/skim
+    :alt: Travis CI
+
+.. image:: https://coveralls.io/repos/github/tanayseven/skim/badge.svg?branch=master
+    :target: https://coveralls.io/github/tanayseven/skim?branch=master
+    :alt: Coveralls
+
+.. image:: https://img.shields.io/github/license/tanayseven/skim
+    :target: https://www.gnu.org/licenses/gpl-3.0.en.html
+    :alt: License
+
 ====================================
 Skim - Smarter Keyboard Input Method
 ====================================
 
-Skim is a sentence prediction software that can predict the next word that you are going to type. It is designed as a text-based input method library that can be integrated with other software applications such as text editors. It uses an N-Grams model which can be trained based on English (or any other language) text given as input. It exposes a ZMQ interface which can be used by other programs to talk to it to predict the next word in the sentence.
+Skim is a sentence prediction software that can predict the next word that you are
+going to type. It is designed as a text-based input method library that can be
+integrated with other software applications such as text editors. It uses an
+N-Grams model which can be trained based on English (or any other language) text
+given as input. It exposes a ZMQ interface which can be used by other programs
+to talk to it to predict the next word in the sentence.
 
 
 Features
