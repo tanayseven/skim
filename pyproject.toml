@@ -8,8 +8,8 @@ license = "GPLv3"
 [tool.poetry.dependencies]
 python = "^3.8"
 numpy = "^1.18.1"
-zmq = "^0.0.0"
 click = "^7.0"
+pyzmq = "^18.1.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.3.5"
