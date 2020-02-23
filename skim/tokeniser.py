@@ -1,4 +1,5 @@
 import re
+from typing import Tuple, List
 
 
 class Tokeniser:
@@ -13,6 +14,12 @@ class Tokeniser:
     @property
     def tokens(self):
         return self._tokens
+
+    def group_tokens(self, groups_of: int = 2) -> List[Tuple[str, ...]]:
+        return [
+            tuple(self._tokens[index:index+groups_of])
+            for index in range(len(self._tokens) - groups_of)
+        ]
 
 
 PUNCTUATIONS = (

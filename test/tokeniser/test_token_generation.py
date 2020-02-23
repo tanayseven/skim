@@ -1,6 +1,8 @@
 import pytest
 from collections import namedtuple
 
+from skim.tokeniser import Tokeniser
+
 TokeniserTestCase = namedtuple(
     'TokeniserTestCase', ['case_name', 'input_string', 'output_list']
 )
@@ -28,11 +30,12 @@ tokeniser_test_cases = (
     ),
 )
 
+
 @pytest.mark.parametrize(
     'case_name,input_string,output_list',
     tokeniser_test_cases,
 )
-def test_parameterized_tokeniser(tokeniser, case_name, input_string, output_list):
+def test_parameterized_tokeniser(tokeniser: Tokeniser, case_name, input_string, output_list):
     tokeniser.add_line(input_string)
 
     assert tokeniser.tokens == output_list, case_name

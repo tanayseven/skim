@@ -4,41 +4,42 @@ from collections import namedtuple
 from skim.tokeniser import Tokeniser
 
 TokeniserTestCase = namedtuple(
-    'TokeniserTestCase', ['case_name', 'input_string', 'output_list']
+    'TokeniserTestCase', ['input_string', 'groups_of', 'output_group']
 )
 
 tokeniser_test_cases = (
     TokeniserTestCase(
-        case_name='Empty set of strings should just have <s>',
-        input_string='',
-        output_list=['<s>', '\n'],
+        input_string='Empty set of strings should just have',
+        groups_of=2,
+        output_group=[
+            ('<s>', 'Empty'),
+            ('Empty', 'set'),
+            ('set', 'of'),
+            ('of', 'strings'),
+            ('strings', 'should'),
+            ('should', 'just'),
+            ('just', 'have'),
+        ],
     ),
     TokeniserTestCase(
-        case_name='A single line of three tokens',
-        input_string='I am Sam',
-        output_list=['<s>', 'I', 'am', 'Sam', '\n'],
-    ),
-    TokeniserTestCase(
-        case_name='Multiple sentence should have full stops tokenised',
-        input_string='I am Sam. Sam I am.',
-        output_list=['<s>', 'I', 'am', 'Sam', '.', 'Sam', 'I', 'am', '.', '\n'],
-    ),
-    TokeniserTestCase(
-        case_name='Question sentense',
-        input_string='Hello, how are you doing?',
-        output_list=['<s>', 'Hello', ',', 'how', 'are', 'you', 'doing', '?', '\n'],
+        input_string='This is a normal sentence written',
+        groups_of=3,
+        output_group=[
+            ('<s>', 'This', 'is'),
+            ('This', 'is', 'a'),
+            ('is', 'a', 'normal'),
+            ('a', 'normal', 'sentence'),
+            ('normal', 'sentence', 'written'),
+        ],
     ),
 )
 
-@pytest.fixture
-def tokeniser():
-    yield Tokeniser()
 
 @pytest.mark.parametrize(
-    'case_name,input_string,output_list',
+    'input_string,groups_of,output_group',
     tokeniser_test_cases,
 )
-def test_parameterized_tokeniser(tokeniser, case_name, input_string, output_list):
+def test_tokeniser_grouping(tokeniser: Tokeniser, input_string, groups_of, output_group):
     tokeniser.add_line(input_string)
 
-    assert tokeniser.tokens == output_list, case_name
+    assert tokeniser.group_tokens(groups_of=groups_of) == output_group, input_string
