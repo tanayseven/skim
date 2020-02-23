@@ -1,5 +1,6 @@
 import re
 
+
 class Tokeniser:
     def __init__(self):
         self._tokens = ['<s>']
@@ -13,6 +14,7 @@ class Tokeniser:
     def tokens(self):
         return self._tokens
 
+
 PUNCTUATIONS = (
     '.',
     ',',
@@ -21,11 +23,12 @@ PUNCTUATIONS = (
 )
 
 REPLACEMENT_DICT = {
-    re.escape(elem): (' '+elem)
+    re.escape(elem): (' ' + elem)
     for elem in PUNCTUATIONS
 }
 
 PATTERN = re.compile('|'.join(REPLACEMENT_DICT.keys()))
+
 
 def _separate_punctuations_from_words(line: str) -> str:
     return PATTERN.sub(lambda m: REPLACEMENT_DICT[re.escape(m.group(0))], line)
