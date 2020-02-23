@@ -6,8 +6,8 @@ class Tokeniser:
         self._tokens = ['<s>']
 
     def add_line(self, line: str):
-        seperated_punctuations = (_separate_punctuations_from_words(line) + ' \n')
-        self._tokens.extend(seperated_punctuations.split(' '))
+        separated_punctuations = (_separate_punctuations_from_words(line) + ' \n')
+        self._tokens.extend(separated_punctuations.split(' '))
         self._tokens = [token for token in self._tokens if token != '']
 
     @property
