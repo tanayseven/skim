@@ -1,5 +1,6 @@
 import re
-from typing import Tuple, List
+
+from skim.types import GroupedTokens
 
 
 class Tokeniser:
@@ -15,7 +16,7 @@ class Tokeniser:
     def tokens(self):
         return self._tokens
 
-    def group_tokens(self, groups_of: int = 2) -> List[Tuple[str, ...]]:
+    def group_tokens(self, groups_of: int = 2) -> GroupedTokens:
         return [
             tuple(self._tokens[index:index+groups_of])
             for index in range(len(self._tokens) - groups_of)
