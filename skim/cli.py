@@ -20,8 +20,7 @@ def command(input_dir, output_dir, n):
     tokeniser = load_raw_text(input_dir)
     with Pool(CPU_COUNT) as processes:
         grouped_tokens = processes.map(tokeniser.group_tokens, [num for num in range(2, n+1)])
-    for group in grouped_tokens:
-        write_tokens(group, output_dir)
+        processes.starmap(write_tokens, [(group, output_dir) for group in grouped_tokens])
 
 
 if __name__ == '__main__':
