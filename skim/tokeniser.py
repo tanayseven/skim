@@ -3,14 +3,23 @@ import re
 from skim.types import GroupedTokens
 
 
+def is_made_of_whitespace(token) -> bool:
+    return len(re.findall(r'^\S+', token)) == 0
+
+
 class Tokeniser:
     def __init__(self):
         self._tokens = ['<s>']
 
     def add_line(self, line: str):
-        separated_punctuations = (_separate_punctuations_from_words(line) + ' \n')
+        separated_punctuations = (_separate_punctuations_from_words(line))
         self._tokens.extend(separated_punctuations.split(' '))
-        self._tokens = [token for token in self._tokens if token != '']
+        self._tokens = [
+            re.sub(r'\s', '', token)
+            for token in self._tokens
+            if not is_made_of_whitespace(token) and token != ''
+        ]
+        self._tokens += '\n'
 
     @property
     def tokens(self):
@@ -18,7 +27,7 @@ class Tokeniser:
 
     def group_tokens(self, groups_of: int = 2) -> GroupedTokens:
         return [
-            tuple(self._tokens[index:index+groups_of])
+            tuple(self._tokens[index:index + groups_of])
             for index in range(len(self._tokens) - groups_of)
         ]
 
