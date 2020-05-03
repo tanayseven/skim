@@ -7,6 +7,9 @@ PossiblePrediction = NewType("PossiblePrediction", int)
 Probability = NewType("Probability", float)
 NGramsKey = Tuple[OccurrenceCount, ...]
 Prediction = Dict[PossiblePrediction, Probability]
+NGramsProbabilityMap = Dict[NGramsKey, Prediction]
+NGramsCountMap = Dict[NGramsKey, OccurrenceCount]
+TrainingSet = List[NGramsKey]
 
 
 class NGramsModel:
@@ -18,15 +21,7 @@ class NGramsModel:
     def train(self, training_set: List[NGramsKey]) -> None:
         n_count_map = count_n_gram_sequences(training_set)
         n_minus_one_map = count_n_gram_sequences(training_set, should_count_n_minus_one=True)
-        probability_map: Dict[NGramsKey, Prediction] = {}
-        for n_count_key in n_count_map.keys():
-            n_minus_one_count_key = n_count_key[:-1]
-            possible_prediction = PossiblePrediction(n_count_key[-1])
-            probability = Probability(n_count_map[n_count_key] / n_minus_one_map[n_minus_one_count_key])
-            try:
-                probability_map[n_minus_one_count_key][possible_prediction] = probability
-            except KeyError:
-                probability_map[n_minus_one_count_key] = {possible_prediction: probability}
+        probability_map = compute_n_grams_probabilities(n_count_map, n_minus_one_map)
         self._probability_map = probability_map
 
     def predict(self, test_sequence: NGramsKey, max_predictions=3) -> Tuple[PossiblePrediction]:
@@ -40,8 +35,8 @@ class NGramsModel:
         )[:max_predictions])
 
 
-def count_n_gram_sequences(training_set, should_count_n_minus_one=False):
-    n_count_map: Dict[NGramsKey, OccurrenceCount] = {}
+def count_n_gram_sequences(training_set: TrainingSet, should_count_n_minus_one=False) -> NGramsCountMap:
+    n_count_map: NGramsCountMap = {}
     for training_sequence in training_set:
         key = training_sequence[:-1] if should_count_n_minus_one else training_sequence
         try:
@@ -49,3 +44,16 @@ def count_n_gram_sequences(training_set, should_count_n_minus_one=False):
         except KeyError:
             n_count_map[key] = OccurrenceCount(1)
     return n_count_map
+
+
+def compute_n_grams_probabilities(n_count_map: NGramsCountMap, n_minus_one_map: NGramsCountMap) -> NGramsProbabilityMap:
+    probability_map: NGramsProbabilityMap = {}
+    for n_count_key in n_count_map.keys():
+        n_minus_one_count_key = n_count_key[:-1]
+        possible_prediction = PossiblePrediction(n_count_key[-1])
+        probability = Probability(n_count_map[n_count_key] / n_minus_one_map[n_minus_one_count_key])
+        try:
+            probability_map[n_minus_one_count_key][possible_prediction] = probability
+        except KeyError:
+            probability_map[n_minus_one_count_key] = {possible_prediction: probability}
+    return probability_map
