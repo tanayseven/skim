@@ -8,6 +8,7 @@ install:
   - poetry install
 script:
   - poetry run black **/*.py --check
+  - poetry run mypy skim/
   - poetry run pytest --cov=skim/ --cov=test/ --cov-report=html
   - coveralls
 

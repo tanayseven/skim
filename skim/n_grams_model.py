@@ -27,7 +27,7 @@ class NGramsModel:
 
     def predict(
         self, test_sequence: NGramsKey, max_predictions=3
-    ) -> Tuple[PossiblePrediction]:
+    ) -> Tuple[PossiblePrediction, ...]:
         if self._probability_map is None:
             raise ModelNotTrainedException
         predictions = self._probability_map[test_sequence]
@@ -47,7 +47,7 @@ def count_n_gram_sequences(
     for training_sequence in training_set:
         key = training_sequence[:-1] if should_count_n_minus_one else training_sequence
         try:
-            n_count_map[key] += 1
+            n_count_map[key] = OccurrenceCount(n_count_map[key] + OccurrenceCount(1))
         except KeyError:
             n_count_map[key] = OccurrenceCount(1)
     return n_count_map
