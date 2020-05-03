@@ -16,18 +16,8 @@ class NGramsModel:
         self._n = n
 
     def train(self, training_set: List[NGramsKey]) -> None:
-        n_count_map: Dict[NGramsKey, OccurrenceCount] = {}
-        n_minus_one_map: Dict[NGramsKey, OccurrenceCount] = {}
-        for training_sequence in training_set:
-            try:
-                n_count_map[training_sequence] += 1
-            except KeyError:
-                n_count_map[training_sequence] = OccurrenceCount(1)
-            n_minus_one = training_sequence[:-1]
-            try:
-                n_minus_one_map[n_minus_one] += 1
-            except KeyError:
-                n_minus_one_map[n_minus_one] = OccurrenceCount(1)
+        n_count_map = count_n_gram_sequences(training_set)
+        n_minus_one_map = count_n_gram_sequences(training_set, should_count_n_minus_one=True)
         probability_map: Dict[NGramsKey, Prediction] = {}
         for n_count_key in n_count_map.keys():
             n_minus_one_count_key = n_count_key[:-1]
@@ -48,3 +38,14 @@ class NGramsModel:
             key=lambda possible_prediction: predictions[possible_prediction],
             reverse=True,
         )[:max_predictions])
+
+
+def count_n_gram_sequences(training_set, should_count_n_minus_one=False):
+    n_count_map: Dict[NGramsKey, OccurrenceCount] = {}
+    for training_sequence in training_set:
+        key = training_sequence[:-1] if should_count_n_minus_one else training_sequence
+        try:
+            n_count_map[key] += 1
+        except KeyError:
+            n_count_map[key] = OccurrenceCount(1)
+    return n_count_map
