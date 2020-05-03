@@ -1,0 +1,2 @@
+class ModelNotTrainedException(Exception):
+    pass
