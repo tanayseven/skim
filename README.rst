@@ -6,6 +6,10 @@
     :target: https://coveralls.io/github/tanayseven/skim?branch=master
     :alt: Coveralls
 
+.. image:: https://api.codacy.com/project/badge/Grade/f73ee12ffce2419795fd574286fa3e08
+    :target: https://www.codacy.com/manual/tanayseven/skim
+    :alt: Codacy
+
 .. image:: https://img.shields.io/github/license/tanayseven/skim
     :target: https://www.gnu.org/licenses/gpl-3.0.en.html
     :alt: License
