@@ -5,46 +5,33 @@ import pytest
 from skim.exceptions import ModelNotTrainedException
 from skim.n_grams_model import NGramsModel
 
-NGramsTestCase = namedtuple('NGramsTestCase', ["case_name", "training_set", "prediction_input", "prediction_outcome"])
+NGramsTestCase = namedtuple(
+    "NGramsTestCase",
+    ["case_name", "training_set", "prediction_input", "prediction_outcome"],
+)
 
 n_grams_test_cases = [
     NGramsTestCase(
         case_name="Simple two words bi-gram",
-        training_set=[
-            (0, 1),
-        ],
+        training_set=[(0, 1),],
         prediction_input=(0,),
         prediction_outcome=(1,),
     ),
     NGramsTestCase(
         case_name="Bi-grams with equal probabilities",
-        training_set=[
-            (0, 1),
-            (0, 2),
-        ],
+        training_set=[(0, 1), (0, 2),],
         prediction_input=(0,),
         prediction_outcome=(1, 2),
     ),
     NGramsTestCase(
         case_name="Bi-grams with one probability higher than other",
-        training_set=[
-            (0, 1),
-            (0, 2),
-            (0, 2),
-        ],
+        training_set=[(0, 1), (0, 2), (0, 2),],
         prediction_input=(0,),
         prediction_outcome=(2, 1),
     ),
     NGramsTestCase(
         case_name="Bi-grams with three different probabilities",
-        training_set=[
-            (0, 1),
-            (0, 2),
-            (0, 2),
-            (0, 2),
-            (0, 3),
-            (0, 3),
-        ],
+        training_set=[(0, 1), (0, 2), (0, 2), (0, 2), (0, 3), (0, 3),],
         prediction_input=(0,),
         prediction_outcome=(2, 3, 1),
     ),
@@ -66,7 +53,9 @@ n_grams_test_cases = [
 ]
 
 
-@pytest.mark.parametrize("case_name,training_set,prediction_input,prediction_outcome", n_grams_test_cases)
+@pytest.mark.parametrize(
+    "case_name,training_set,prediction_input,prediction_outcome", n_grams_test_cases
+)
 def test_n_grams(case_name, training_set, prediction_input, prediction_outcome) -> None:
     # given
     n_grams_model = NGramsModel()

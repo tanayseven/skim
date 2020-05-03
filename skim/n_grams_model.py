@@ -2,7 +2,7 @@ from typing import List, Tuple, Dict, Optional, NewType
 
 from skim.exceptions import ModelNotTrainedException
 
-OccurrenceCount = NewType('OccurrenceCount', int)
+OccurrenceCount = NewType("OccurrenceCount", int)
 PossiblePrediction = NewType("PossiblePrediction", int)
 Probability = NewType("Probability", float)
 NGramsKey = Tuple[OccurrenceCount, ...]
@@ -13,29 +13,36 @@ TrainingSet = List[NGramsKey]
 
 
 class NGramsModel:
-
     def __init__(self, n: int = 10) -> None:
         self._probability_map: Optional[Dict[NGramsKey, Prediction]] = None
         self._n = n
 
     def train(self, training_set: List[NGramsKey]) -> None:
         n_count_map = count_n_gram_sequences(training_set)
-        n_minus_one_map = count_n_gram_sequences(training_set, should_count_n_minus_one=True)
+        n_minus_one_map = count_n_gram_sequences(
+            training_set, should_count_n_minus_one=True
+        )
         probability_map = compute_n_grams_probabilities(n_count_map, n_minus_one_map)
         self._probability_map = probability_map
 
-    def predict(self, test_sequence: NGramsKey, max_predictions=3) -> Tuple[PossiblePrediction]:
+    def predict(
+        self, test_sequence: NGramsKey, max_predictions=3
+    ) -> Tuple[PossiblePrediction]:
         if self._probability_map is None:
             raise ModelNotTrainedException
         predictions = self._probability_map[test_sequence]
-        return tuple(sorted(
-            predictions,
-            key=lambda possible_prediction: predictions[possible_prediction],
-            reverse=True,
-        )[:max_predictions])
+        return tuple(
+            sorted(
+                predictions,
+                key=lambda possible_prediction: predictions[possible_prediction],
+                reverse=True,
+            )[:max_predictions]
+        )
 
 
-def count_n_gram_sequences(training_set: TrainingSet, should_count_n_minus_one=False) -> NGramsCountMap:
+def count_n_gram_sequences(
+    training_set: TrainingSet, should_count_n_minus_one=False
+) -> NGramsCountMap:
     n_count_map: NGramsCountMap = {}
     for training_sequence in training_set:
         key = training_sequence[:-1] if should_count_n_minus_one else training_sequence
@@ -46,12 +53,16 @@ def count_n_gram_sequences(training_set: TrainingSet, should_count_n_minus_one=F
     return n_count_map
 
 
-def compute_n_grams_probabilities(n_count_map: NGramsCountMap, n_minus_one_map: NGramsCountMap) -> NGramsProbabilityMap:
+def compute_n_grams_probabilities(
+    n_count_map: NGramsCountMap, n_minus_one_map: NGramsCountMap
+) -> NGramsProbabilityMap:
     probability_map: NGramsProbabilityMap = {}
     for n_count_key in n_count_map.keys():
         n_minus_one_count_key = n_count_key[:-1]
         possible_prediction = PossiblePrediction(n_count_key[-1])
-        probability = Probability(n_count_map[n_count_key] / n_minus_one_map[n_minus_one_count_key])
+        probability = Probability(
+            n_count_map[n_count_key] / n_minus_one_map[n_minus_one_count_key]
+        )
         try:
             probability_map[n_minus_one_count_key][possible_prediction] = probability
         except KeyError:

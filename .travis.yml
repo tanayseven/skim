@@ -7,6 +7,7 @@ before_install:
 install:
   - poetry install
 script:
+  - poetry run black **/*.py --check
   - poetry run pytest --cov=skim/ --cov=test/ --cov-report=html
   - coveralls
 
