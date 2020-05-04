@@ -6,9 +6,49 @@
     :target: https://coveralls.io/github/tanayseven/skim?branch=master
     :alt: Coveralls
 
-.. image:: https://api.codacy.com/project/badge/Grade/f73ee12ffce2419795fd574286fa3e08
-    :target: https://www.codacy.com/manual/tanayseven/skim
-    :alt: Codacy
+.. image:: https://sonarcloud.io/api/project_badges/measure?project=tanayseven_skim&metric=alert_status
+    :target: https://sonarcloud.io/dashboard?id=tanayseven_skim
+    :alt: Quality Gate
+
+.. image:: https://sonarcloud.io/api/project_badges/measure?project=tanayseven_skim&metric=bugs
+    :target: https://sonarcloud.io/project/issues?id=tanayseven_skim&resolved=false&types=BUG
+    :alt: Bugs
+
+.. image:: https://sonarcloud.io/api/project_badges/measure?project=tanayseven_skim&metric=code_smells
+    :target: https://sonarcloud.io/project/issues?id=tanayseven_skim&resolved=false&types=CODE_SMELL
+    :alt: Code Smells
+
+.. image:: https://sonarcloud.io/api/project_badges/measure?project=tanayseven_skim&metric=coverage
+    :target: https://sonarcloud.io/code?id=tanayseven_skim
+    :alt: Code Coverage
+
+.. image:: https://sonarcloud.io/api/project_badges/measure?project=tanayseven_skim&metric=duplicated_lines_density
+    :target: https://sonarcloud.io/component_measures?id=tanayseven_skim&metric=Duplications&view=list
+    :alt: Duplicate Lines
+
+.. image:: https://sonarcloud.io/api/project_badges/measure?project=tanayseven_skim&metric=duplicated_lines_density
+    :target: https://sonarcloud.io/code?id=tanayseven_skim
+    :alt: Lines of Code
+
+.. image:: https://sonarcloud.io/api/project_badges/measure?project=tanayseven_skim&metric=sqale_rating
+    :target: https://sonarcloud.io/component_measures?id=tanayseven_skim&metric=Maintainability&view=list
+    :alt: Maintainability Rating
+
+.. image:: https://sonarcloud.io/api/project_badges/measure?project=tanayseven_skim&metric=reliability_rating
+    :target: https://sonarcloud.io/component_measures?id=tanayseven_skim&metric=Reliability&view=list
+    :alt: Reliability Rating
+
+.. image:: https://sonarcloud.io/api/project_badges/measure?project=tanayseven_skim&metric=security_rating
+    :target: https://sonarcloud.io/component_measures?id=tanayseven_skim&metric=Security&view=list
+    :alt: Security Rating
+
+.. image:: https://sonarcloud.io/api/project_badges/measure?project=tanayseven_skim&metric=sqale_index
+    :target: https://sonarcloud.io/component_measures?id=tanayseven_skim&metric=sqale_index
+    :alt: Technical Debt
+
+.. image:: https://sonarcloud.io/api/project_badges/measure?project=tanayseven_skim&metric=vulnerabilities
+    :target: https://sonarcloud.io/component_measures?id=tanayseven_skim&metric=vulnerabilities
+    :alt: Vulnerabilities
 
 .. image:: https://img.shields.io/github/license/tanayseven/skim
     :target: https://www.gnu.org/licenses/gpl-3.0.en.html
