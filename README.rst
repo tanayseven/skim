@@ -20,9 +20,9 @@
 
 .. image:: https://sonarcloud.io/api/project_badges/measure?project=tanayseven_skim&metric=duplicated_lines_density
     :target: https://sonarcloud.io/component_measures?id=tanayseven_skim&metric=Duplications&view=list
-    :alt: Duplicate Lines
+    :alt: Duplicated Lines
 
-.. image:: https://sonarcloud.io/api/project_badges/measure?project=tanayseven_skim&metric=duplicated_lines_density
+.. image:: https://sonarcloud.io/api/project_badges/measure?project=tanayseven_skim&metric=ncloc
     :target: https://sonarcloud.io/code?id=tanayseven_skim
     :alt: Lines of Code
 
