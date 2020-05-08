@@ -2,10 +2,6 @@
     :target: https://travis-ci.org/tanayseven/skim
     :alt: Travis CI
 
-.. image:: https://coveralls.io/repos/github/tanayseven/skim/badge.svg?branch=master
-    :target: https://coveralls.io/github/tanayseven/skim?branch=master
-    :alt: Coveralls
-
 .. image:: https://sonarcloud.io/api/project_badges/measure?project=tanayseven_skim&metric=alert_status
     :target: https://sonarcloud.io/dashboard?id=tanayseven_skim
     :alt: Quality Gate
