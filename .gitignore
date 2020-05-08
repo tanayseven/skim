@@ -4,3 +4,6 @@
 temp/
 *.egg-info/
 .mypy_cache/
+.coverage
+coverage.xml
+htmlcov/
