@@ -1,7 +1,7 @@
 import pytest
 import zmq
 
-from test.fake_zmq import FakeSocket
+from test.fake_zmq import FakeSocket, FakeContext
 from skim.endpoint import ZmqServer
 
 
@@ -22,20 +22,13 @@ def zmq_client(monkeypatch):
     yield socket
 
 
-class FakeContext:
-    def socket(self, *args, **kwargs):
-        return FakeSocket()
-
-
-@pytest.fixture(autouse=True)
-def zmq_server_patch(monkeypatch):
+@pytest.fixture
+def zmq_server(monkeypatch):
     monkeypatch.setattr(zmq, "Context", FakeContext)
+    return ZmqServer(transformer=echo, validation_schema=ECHO_SCHEMA)
 
 
-def test_connection_echo_success(zmq_client):
-    # given
-    zmq_server = ZmqServer(transformer=echo, validation_schema=ECHO_SCHEMA)
-
+def test_connection_echo_success(zmq_client, zmq_server):
     # when
     message = {"message": "Something"}
     zmq_client.send_json(message)
@@ -46,10 +39,7 @@ def test_connection_echo_success(zmq_client):
     assert received_message == message
 
 
-def test_connection_echo_failure(zmq_client):
-    # given
-    zmq_server = ZmqServer(transformer=echo, validation_schema=ECHO_SCHEMA)
-
+def test_connection_echo_failure(zmq_client, zmq_server):
     # when
     message = {"text": "Something"}
     zmq_client.send_json(message)

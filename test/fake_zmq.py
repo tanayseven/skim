@@ -25,3 +25,8 @@ class FakeSocket:
             timeout_seconds=8,
         )
         return self._receive_from_queue.pop(0)
+
+
+class FakeContext:
+    def socket(self, *args, **kwargs):
+        return FakeSocket()
