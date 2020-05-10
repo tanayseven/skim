@@ -27,6 +27,11 @@ tokenizer_test_cases = [
         input_string="काळा बाळ",
         expected_tokens=["काळा", "बाळ"],
     ),
+    TokenizerTestCase(
+        case_name="Punctuations are detected as separate tokens",
+        input_string="Hi! I want, this done.",
+        expected_tokens=["Hi", "!", "I", "want", ",", "this", "done", "."],
+    ),
 ]
 
 
