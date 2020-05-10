@@ -22,7 +22,5 @@ class ZmqServer:
                 validate(instance=received_data, schema=self._validation_schema)
             processed_data = self._transformer(received_data)
             self._socket.send_json(processed_data)
-        except zmq.ZMQError:
-            pass
         except ValidationError as ve:
             self._socket.send_json({"success": "no", "message": f"{ve.message}"})

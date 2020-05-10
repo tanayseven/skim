@@ -15,4 +15,6 @@ repos:
         name: Running Pytest
         entry: poetry run pytest
         language: system
+        files: 'test/(.*)\.py$'
+        always_run: true
         types: [python]
