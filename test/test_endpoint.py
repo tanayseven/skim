@@ -1,8 +1,7 @@
-from threading import Thread
-
 import pytest
 import zmq
 
+from test.fake_zmq import FakeSocket
 from skim.endpoint import ZmqServer
 
 
@@ -12,51 +11,49 @@ def echo(input_json: dict) -> dict:
 
 ECHO_SCHEMA = {
     "type": "object",
-    "properties": {"message": {"type": "string"},},
+    "properties": {"message": {"type": "string"}, },
     "required": ["message"],
 }
 
 
 @pytest.fixture
-def zmq_client():
-    context = zmq.Context()
-    socket = context.socket(zmq.REQ)
-    socket.connect("tcp://localhost:5555")
+def zmq_client(monkeypatch):
+    socket = FakeSocket()
     yield socket
 
 
-@pytest.fixture
-def zmq_server():
-    server = ZmqServer(transformer=echo, validation_schema=ECHO_SCHEMA)
-    server_thread = Thread(target=server.start, daemon=True)
-    server_thread.start()
-    yield
-    server.stop()
-    server_thread.join()
+class FakeContext:
+    def socket(self, *args, **kwargs):
+        return FakeSocket()
 
 
-@pytest.mark.skip
-def test_connection_echo_success(zmq_client, zmq_server):
+@pytest.fixture(autouse=True)
+def zmq_server_patch(monkeypatch):
+    monkeypatch.setattr(zmq, "Context", FakeContext)
+
+
+def test_connection_echo_success(zmq_client):
     # given
-    _ = zmq_server
+    zmq_server = ZmqServer(transformer=echo, validation_schema=ECHO_SCHEMA)
 
     # when
     message = {"message": "Something"}
     zmq_client.send_json(message)
+    zmq_server.process_message()
 
     # then
     received_message = zmq_client.recv_json()
     assert received_message == message
 
 
-@pytest.mark.skip
-def test_connection_echo_failure(zmq_client, zmq_server):
+def test_connection_echo_failure(zmq_client):
     # given
-    _ = zmq_server
+    zmq_server = ZmqServer(transformer=echo, validation_schema=ECHO_SCHEMA)
 
     # when
     message = {"text": "Something"}
     zmq_client.send_json(message)
+    zmq_server.process_message()
 
     # then
     received_message = zmq_client.recv_json()

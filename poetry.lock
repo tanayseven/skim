@@ -410,6 +410,14 @@ socks = ["PySocks (>=1.5.6,<1.5.7 || >1.5.7,<2.0)"]
 
 [[package]]
 category = "dev"
+description = "Utility for waiting for stuff to happen"
+name = "waiting"
+optional = false
+python-versions = "*"
+version = "1.4.1"
+
+[[package]]
+category = "dev"
 description = "Filesystem events monitoring"
 name = "watchdog"
 optional = false
@@ -431,7 +439,7 @@ python-versions = "*"
 version = "0.1.8"
 
 [metadata]
-content-hash = "bece47aecae3453c380fb937a8b6a8ed087c86e7913bc505f346c38ff2d32c59"
+content-hash = "46afc79912772d563f286d45edecd2f99308bf5d00b9623a5d442fa3a8dbfcd9"
 python-versions = "^3.8"
 
 [metadata.files]
@@ -708,6 +716,9 @@ typing-extensions = [
 urllib3 = [
     {file = "urllib3-1.25.8-py2.py3-none-any.whl", hash = "sha256:2f3db8b19923a873b3e5256dc9c2dedfa883e33d87c690d9c7913e1f40673cdc"},
     {file = "urllib3-1.25.8.tar.gz", hash = "sha256:87716c2d2a7121198ebcb7ce7cccf6ce5e9ba539041cfbaeecfb641dc0bf6acc"},
+]
+waiting = [
+    {file = "waiting-1.4.1.tar.gz", hash = "sha256:b641ef3a2382e101d3c4e66494da6fc52b82c325dd04ae341e051b0eec6f30cd"},
 ]
 watchdog = [
     {file = "watchdog-0.10.2.tar.gz", hash = "sha256:c560efb643faed5ef28784b2245cf8874f939569717a4a12826a173ac644456b"},
