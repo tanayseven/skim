@@ -97,6 +97,14 @@ Languages this works with
 Setup/Running
 =============
 
+Setup the pre-commit hook
+-------------------------
+
+.. code-block:: shell
+
+    poetry run pre-commit install
+
+
 Installing all the dependencies
 -------------------------------
 
@@ -114,7 +122,7 @@ Start the program as a process
 
 
 Train the model
-------------------------------
+---------------
 
 .. code-block:: shell
 

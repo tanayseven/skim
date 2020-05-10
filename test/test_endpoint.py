@@ -11,7 +11,7 @@ def echo(input_json: dict) -> dict:
 
 ECHO_SCHEMA = {
     "type": "object",
-    "properties": {"message": {"type": "string"}, },
+    "properties": {"message": {"type": "string"},},
     "required": ["message"],
 }
 
