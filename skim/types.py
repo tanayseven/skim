@@ -15,9 +15,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-class ModelNotTrainedException(Exception):
-    pass
+from typing import NewType
 
-
-class WordNotFoundError(Exception):
-    pass
+PossiblePrediction = NewType("PossiblePrediction", int)

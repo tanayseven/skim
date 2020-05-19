@@ -17,9 +17,9 @@
 from typing import List, Tuple, Dict, Optional, NewType
 
 from skim.exceptions import ModelNotTrainedException
+from skim.types import PossiblePrediction
 
 OccurrenceCount = NewType("OccurrenceCount", int)
-PossiblePrediction = NewType("PossiblePrediction", int)
 Probability = NewType("Probability", float)
 NGramsKey = Tuple[OccurrenceCount, ...]
 Prediction = Dict[PossiblePrediction, Probability]
