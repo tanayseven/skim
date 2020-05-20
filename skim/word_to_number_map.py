@@ -15,38 +15,46 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from collections.abc import MutableMapping
-from typing import Iterator, NewType, Tuple, Dict
+from typing import Iterator, NewType, Tuple, Dict, Union
 
 from skim.exceptions import WordNotFoundError
-from skim.types import PossiblePrediction
+from skim.types import WordAsInt
 
-WordType = NewType("WordType", str)
+Token = NewType("Token", str)
 
 
 class WordToNumberMap(MutableMapping):
     def __setitem__(self, key: None, value: None) -> None:
         raise NotImplementedError("Cannot set your own number to a word")
 
-    def __delitem__(self, key: WordType) -> None:
-        if key not in self._word_map.keys():
+    def __delitem__(self, key: Token) -> None:
+        if key not in self._number_to_word_map.keys():
             raise WordNotFoundError
-        del self._word_map[key]
+        del self._number_to_word_map[key]
 
     def __init__(self):
-        self._count = PossiblePrediction(0)
-        self._word_map: Dict[WordType, PossiblePrediction] = {}
+        self._count = WordAsInt(0)
+        self._number_to_word_map: Dict[
+            Union[Token, WordAsInt], Union[Token, WordAsInt]
+        ] = {}
 
-    def __getitem__(self, key: WordType) -> PossiblePrediction:
-        if key not in self._word_map.keys():
-            self._word_map[key] = self._count
+    def __getitem__(self, key: Union[Token, WordAsInt]) -> Union[Token, WordAsInt]:
+        if type(key) == WordAsInt and key not in self._number_to_word_map.keys():
+            raise KeyError(f"Could not find the token for the WordAsInt({key})")
+        if key not in self._number_to_word_map.keys():
+            self._number_to_word_map[key] = self._count
+            self._number_to_word_map[self._count] = key
             self._count += 1
-        return self._word_map[key]
+        return self._number_to_word_map[key]
 
     def __len__(self) -> int:
-        return len(self._word_map.keys())
+        return len(self._number_to_word_map.keys())
 
-    def __iter__(self) -> Iterator[Tuple[WordType, PossiblePrediction]]:
+    def __iter__(
+        self,
+    ) -> Iterator[Tuple[Union[Token, WordAsInt], Union[Token, WordAsInt]]]:
         return iter(
             (word_type, possible_prediction)
-            for word_type, possible_prediction in self._word_map.items()
+            for word_type, possible_prediction in self._number_to_word_map.items()
+            if type(word_type) == Token and type(possible_prediction) == WordAsInt
         )

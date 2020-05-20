@@ -64,3 +64,6 @@ def test_word_prediction_model(case_name, add_words, remove_words, expected_numb
     assert all(
         [word_to_number_map[key] == value for key, value in expected_number_map.items()]
     ), case_name
+    assert all(
+        [word_to_number_map[value] == key for key, value in expected_number_map.items()]
+    ), case_name

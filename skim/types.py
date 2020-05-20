@@ -17,4 +17,4 @@
 
 from typing import NewType
 
-PossiblePrediction = NewType("PossiblePrediction", int)
+WordAsInt = NewType("WordAsInt", int)

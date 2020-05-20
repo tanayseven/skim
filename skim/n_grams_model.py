@@ -14,15 +14,16 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import List, Tuple, Dict, Optional, NewType
+from typing import List, Tuple, Dict, Optional, NewType, Union
 
 from skim.exceptions import ModelNotTrainedException
-from skim.types import PossiblePrediction
+from skim.types import WordAsInt
+from skim.word_to_number_map import Token
 
 OccurrenceCount = NewType("OccurrenceCount", int)
 Probability = NewType("Probability", float)
-NGramsKey = Tuple[OccurrenceCount, ...]
-Prediction = Dict[PossiblePrediction, Probability]
+NGramsKey = Tuple[Union[Token, WordAsInt], ...]
+Prediction = Dict[Union[Token, WordAsInt], Probability]
 NGramsProbabilityMap = Dict[NGramsKey, Prediction]
 NGramsCountMap = Dict[NGramsKey, OccurrenceCount]
 TrainingSet = List[NGramsKey]
@@ -43,7 +44,7 @@ class NGramsModel:
 
     def predict(
         self, test_sequence: NGramsKey, max_predictions=3
-    ) -> Tuple[PossiblePrediction, ...]:
+    ) -> Tuple[Union[Token, WordAsInt], ...]:
         if self._probability_map is None:
             raise ModelNotTrainedException
         predictions = self._probability_map[test_sequence]
@@ -75,7 +76,7 @@ def compute_n_grams_probabilities(
     probability_map: NGramsProbabilityMap = {}
     for n_count_key in n_count_map.keys():
         n_minus_one_count_key = n_count_key[:-1]
-        possible_prediction = PossiblePrediction(n_count_key[-1])
+        possible_prediction = n_count_key[-1]
         probability = Probability(
             n_count_map[n_count_key] / n_minus_one_map[n_minus_one_count_key]
         )
