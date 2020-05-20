@@ -6,6 +6,8 @@ addons:
     token:
       secure: "JqjDWHZHxvRKSl84i824bLIuUnq2UNr6SXQ5o/a03Ud6/eObB244LDFIQ/51s1gV/zJOxS4KV8yUsjiG8HNf0eC1J9xsMqoi6V99kUAA/5OVxI99PItM4rcQM6FNttUEydQtZmYRYwI2IY2qdD5LsDSMB71xXek4AQT5pvjHa1jM64Y6dK25KhjCOaDslt6Or6DNpw1BrDfogYpfmyhfP2ylFkBg9zB3yxU/kxoe1bwNrIP6K0lYI/lAIXN93DjBBnxq0Ta04Eo1u5JdDqOgu4yXhp+1N9OX4koE5gHaBfLOMrbtmCJbWd3zxd4CKycJmxuqEALwcYKw147e4+uCTC+ot4g2/CRbk4U+e7dsgew/IAvFX+67QsiU2EmCUJg3EJWzU4zaqNMzqtULWDnWZzaKot7SpKE9aJeQgwIUe8icy1cfFZL3VR0+X4qyy7uh3qASpav1ehonwVtGxiCXjJVubl/9EjY2er3YcpEU8aZVbSUX1bkrjUBxAqcl0I7XlByoVT6Qt/GTvI02iOcQa37Pt8sQlbTBR5W1JtdGfsNs9QTUrvQp29ewFBTrUnZIb9ZnwLoSFAIChBnw8VF7UDm8ts8lsAZXtcY9qgdCxMBPe4Y+nNKIrMwv4inqCRm1bwtzGpHHwqtAG4WynW79aHyeE2COQucBcvs9DJb66wg="
 
+env:
+  - PYTHONPATH=.
 
 python:
   - 3.8
@@ -16,5 +18,5 @@ install:
 script:
   - poetry run black **/*.py --check
   - poetry run mypy skim/
-  - poetry run pytest --cov=skim/ --cov=test/ --cov-report=html --cov-report=xml -vv
+  - poetry run pytest . --cov=skim/ --cov=test/ --cov-report=html --cov-report=xml -vv
   - sonar-scanner

@@ -17,7 +17,7 @@
 import pytest
 import zmq
 
-from test.unit.fake_zmq import FakeSocket, FakeContext
+from test_doubles.zmq import FakeSocket, FakeContext
 from skim.endpoint import ZmqServer
 
 
