@@ -14,38 +14,49 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from collections.abc import MutableMapping
-from typing import Iterator, NewType, Tuple, Dict, Union
+from typing import Iterator, NewType, Tuple, Dict, Union, Optional
 
-from skim.exceptions import WordNotFoundError
 from skim.types import WordAsInt
 
 Token = NewType("Token", str)
 
 
-class WordToNumberMap(MutableMapping):
-    def __setitem__(self, key: None, value: None) -> None:
-        raise NotImplementedError("Cannot set your own number to a word")
-
-    def __delitem__(self, key: Token) -> None:
-        if key not in self._number_to_word_map.keys():
-            raise WordNotFoundError
-        del self._number_to_word_map[key]
-
+class WordToNumberMap:
     def __init__(self):
         self._count = WordAsInt(0)
-        self._number_to_word_map: Dict[
-            Union[Token, WordAsInt], Union[Token, WordAsInt]
-        ] = {}
+        self._number_to_word_map: Dict[WordAsInt, Token] = {}
+        self._word_to_number_map: Dict[Token, WordAsInt] = {}
 
-    def __getitem__(self, key: Union[Token, WordAsInt]) -> Union[Token, WordAsInt]:
-        if type(key) == WordAsInt and key not in self._number_to_word_map.keys():
-            raise KeyError(f"Could not find the token for the WordAsInt({key})")
-        if key not in self._number_to_word_map.keys():
-            self._number_to_word_map[key] = self._count
-            self._number_to_word_map[self._count] = key
+    def add_word(self, word: Token) -> WordAsInt:
+        if word not in self._word_to_number_map.keys():
+            self._word_to_number_map[word] = self._count
+            self._number_to_word_map[self._count] = word
             self._count += 1
-        return self._number_to_word_map[key]
+        return self._word_to_number_map[word]
+
+    def number_for_word(self, word: Token) -> Optional[WordAsInt]:
+        return (
+            self._word_to_number_map[word]
+            if word in self._word_to_number_map.keys()
+            else None
+        )
+
+    def word_for_number(self, number: WordAsInt) -> Optional[Token]:
+        return (
+            self._number_to_word_map[number]
+            if number in self._number_to_word_map.keys()
+            else None
+        )
+
+    def delete_word(self, key: Union[Token, WordAsInt]) -> None:
+        if isinstance(key, str):
+            number = self._word_to_number_map[Token(key)]
+            del self._word_to_number_map[Token(key)]
+            del self._number_to_word_map[WordAsInt(number)]
+        if isinstance(key, int):
+            word = self._number_to_word_map[WordAsInt(key)]
+            del self._number_to_word_map[WordAsInt(key)]
+            del self._word_to_number_map[word]
 
     def __len__(self) -> int:
         return len(self._number_to_word_map.keys())

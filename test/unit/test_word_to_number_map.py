@@ -18,7 +18,8 @@ from collections import namedtuple
 
 import pytest
 
-from skim.word_to_number_map import WordToNumberMap
+from skim.types import WordAsInt
+from skim.word_to_number_map import WordToNumberMap, Token
 
 WordToNumberMapTestCase = namedtuple(
     "WordToNumberMapTestCase",
@@ -42,7 +43,7 @@ word_to_number_map_test_cases = [
         case_name="Add three words and remove the middle word",
         add_words=["This", "words", "rock"],
         remove_words=["words"],
-        expected_number_map={"This": 0, "words": 3, "rock": 2},
+        expected_number_map={"This": 0, "rock": 2},
     ),
 ]
 
@@ -56,14 +57,20 @@ def test_word_prediction_model(case_name, add_words, remove_words, expected_numb
     word_to_number_map = WordToNumberMap()
 
     # when
-    _ = [word_to_number_map[word] for word in add_words]
+    _ = [word_to_number_map.add_word(Token(word)) for word in add_words]
     for word in remove_words:
-        del word_to_number_map[word]
+        word_to_number_map.delete_word(Token(word))
 
     # then
     assert all(
-        [word_to_number_map[key] == value for key, value in expected_number_map.items()]
+        [
+            word_to_number_map.number_for_word(Token(key)) == value
+            for key, value in expected_number_map.items()
+        ]
     ), case_name
     assert all(
-        [word_to_number_map[value] == key for key, value in expected_number_map.items()]
+        [
+            word_to_number_map.word_for_number(WordAsInt(value)) == key
+            for key, value in expected_number_map.items()
+        ]
     ), case_name

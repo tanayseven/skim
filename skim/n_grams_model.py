@@ -14,16 +14,15 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import List, Tuple, Dict, Optional, NewType, Union
+from typing import List, Tuple, Dict, Optional, NewType
 
 from skim.exceptions import ModelNotTrainedException
 from skim.types import WordAsInt
-from skim.word_to_number_map import Token
 
 OccurrenceCount = NewType("OccurrenceCount", int)
 Probability = NewType("Probability", float)
-NGramsKey = Tuple[Union[Token, WordAsInt], ...]
-Prediction = Dict[Union[Token, WordAsInt], Probability]
+NGramsKey = Tuple[WordAsInt, ...]
+Prediction = Dict[WordAsInt, Probability]
 NGramsProbabilityMap = Dict[NGramsKey, Prediction]
 NGramsCountMap = Dict[NGramsKey, OccurrenceCount]
 TrainingSet = List[NGramsKey]
@@ -44,7 +43,7 @@ class NGramsModel:
 
     def predict(
         self, test_sequence: NGramsKey, max_predictions=3
-    ) -> Tuple[Union[Token, WordAsInt], ...]:
+    ) -> Tuple[WordAsInt, ...]:
         if self._probability_map is None:
             raise ModelNotTrainedException
         predictions = self._probability_map[test_sequence]
