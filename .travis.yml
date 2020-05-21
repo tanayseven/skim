@@ -18,5 +18,5 @@ install:
 script:
   - poetry run black **/*.py --check
   - poetry run mypy skim/
-  - poetry run pytest . --cov=skim/ --cov=test/ --cov-report=html --cov-report=xml -vv
+  - poetry run pytest
   - sonar-scanner

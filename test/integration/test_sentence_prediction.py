@@ -12,7 +12,13 @@ def trained_model():
     return sentence_prediction
 
 
-def test_sentence_prediction(trained_model: SentencePrediction):
+def test_for_valid_input(trained_model: SentencePrediction):
     predictions = trained_model.predict(("writing", "this"))
 
     assert predictions == ("email", "message", "program")
+
+
+def test_for_invalid_input(trained_model: SentencePrediction):
+    predictions = trained_model.predict(("writing", "random_word"))
+
+    assert predictions is None

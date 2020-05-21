@@ -57,15 +57,3 @@ class WordToNumberMap:
             word = self._number_to_word_map[WordAsInt(key)]
             del self._number_to_word_map[WordAsInt(key)]
             del self._word_to_number_map[word]
-
-    def __len__(self) -> int:
-        return len(self._number_to_word_map.keys())
-
-    def __iter__(
-        self,
-    ) -> Iterator[Tuple[Union[Token, WordAsInt], Union[Token, WordAsInt]]]:
-        return iter(
-            (word_type, possible_prediction)
-            for word_type, possible_prediction in self._number_to_word_map.items()
-            if type(word_type) == Token and type(possible_prediction) == WordAsInt
-        )
